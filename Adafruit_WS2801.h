@@ -10,17 +10,17 @@
 // unspecified is RGB).  As long as setPixelColor/getPixelColor are
 // used, other code can always treat 'packed' colors as RGB; the
 // library will handle any required translation internally.
-#define WS2801_RGB 0
-#define WS2801_GRB 1
+#define COLOR_ORDER_RGB 0
+#define COLOR_ORDER_GRB 1
 
 class Adafruit_WS2801 {
 
  public:
 
   // Configurable pins:
-  Adafruit_WS2801(uint16_t n, uint8_t dpin, uint8_t cpin, uint8_t order=WS2801_RGB);
+  Adafruit_WS2801(uint16_t n, uint8_t dpin, uint8_t cpin, uint8_t order=COLOR_ORDER_RGB);
   // Use SPI hardware; specific pins only:
-  Adafruit_WS2801(uint16_t n, uint8_t order=WS2801_RGB);
+  Adafruit_WS2801(uint16_t n, uint8_t order=COLOR_ORDER_RGB);
   // Empty constructor; init pins/strand length/data order later:
   Adafruit_WS2801();
 

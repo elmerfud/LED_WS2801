@@ -35,7 +35,7 @@ Adafruit_WS2801::Adafruit_WS2801(void) {
   begun     = false;
   numLEDs   = 0;
   pixels    = NULL;
-  rgb_order = WS2801_RGB;
+  rgb_order = COLOR_ORDER_RGB;
   updatePins(); // Must assume hardware SPI until pins are set
 }
 
@@ -141,7 +141,7 @@ void Adafruit_WS2801::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
   if(n < numLEDs) { // Arrays are 0-indexed, thus NOT '<='
     uint8_t *p = &pixels[n * 3];
     // See notes later regarding color order
-    if(rgb_order == WS2801_RGB) {
+    if(rgb_order == COLOR_ORDER_RGB) {
       *p++ = r;
       *p++ = g;
     } else {
@@ -160,7 +160,7 @@ void Adafruit_WS2801::setPixelColor(uint16_t n, uint32_t c) {
     // internal color representation is native to different pixel
     // types.  For compatibility with existing code, 'packed' RGB
     // values passed in or out are always 0xRRGGBB order.
-    if(rgb_order == WS2801_RGB) {
+    if(rgb_order == COLOR_ORDER_RGB) {
       *p++ = c >> 16; // Red
       *p++ = c >>  8; // Green
     } else {
@@ -179,7 +179,7 @@ uint32_t Adafruit_WS2801::getPixelColor(uint16_t n) {
     // internal color representation is native to different pixel
     // types.  For compatibility with existing code, 'packed' RGB
     // values passed in or out are always 0xRRGGBB order.
-    return (rgb_order == WS2801_RGB) ?
+    return (rgb_order == COLOR_ORDER_RGB) ?
       (pixels[ofs] << 16) | (pixels[ofs + 1] <<  8) | pixels[ofs + 2] :
       (pixels[ofs] <<  8) | (pixels[ofs + 1] << 16) | pixels[ofs + 2];
   }
