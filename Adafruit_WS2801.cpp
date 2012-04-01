@@ -133,7 +133,7 @@ void Adafruit_WS2801::show(void) {
     }
   }
 
-  delay(1); // Data is latched by holding clock pin low for 1 millisecond
+  delay(PAUSE_TIME); // Data is latched by holding clock pin low for 1 millisecond
 }
 
 // Set pixel color from separate 8-bit R, G, B components:

@@ -13,6 +13,9 @@
 #define COLOR_ORDER_RGB 0
 #define COLOR_ORDER_GRB 1
 
+// Time to hold clock low for latch
+#define PAUSE_TIME 1
+
 class Adafruit_WS2801 {
 
  public:
