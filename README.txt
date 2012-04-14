@@ -1,4 +1,26 @@
-Tweaked
+This is a modified version of Adafruits WS2801 library.  It is  function compatable with my modified Adafruit_LPD8806 library so the two can be used interchangable with sketches.  
+
+12mm Bullet shape ----> https://www.adafruit.com/products/322
+Red - 5V
+Yellow - Data
+Green - Clock
+Blue - Ground
+
+12mm Flat shape   ----> https://www.adafruit.com/products/738
+
+
+36mm Square shape ----> https://www.adafruit.com/products/683
+
+
+LED Strip ----> http://www.sparkfun.com/products/10312
+Blue - 5V
+Red - Data
+Green - Clock
+Black - Ground
+
+
+
+
 
 ------------------
 Example library for driving Adafruit WS2801 pixels!
