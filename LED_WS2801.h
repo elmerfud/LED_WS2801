@@ -16,16 +16,16 @@
 // Time to hold clock low for latch
 #define PAUSE_TIME 1
 
-class Adafruit_WS2801 {
+class LED_WS2801 {
 
  public:
 
   // Configurable pins:
-  Adafruit_WS2801(uint16_t n, uint8_t dpin, uint8_t cpin, uint8_t order=COLOR_ORDER_RGB);
+  LED_WS2801(uint16_t n, uint8_t dpin, uint8_t cpin, uint8_t order=COLOR_ORDER_RGB);
   // Use SPI hardware; specific pins only:
-  Adafruit_WS2801(uint16_t n, uint8_t order=COLOR_ORDER_RGB);
+  LED_WS2801(uint16_t n, uint8_t order=COLOR_ORDER_RGB);
   // Empty constructor; init pins/strand length/data order later:
-  Adafruit_WS2801();
+  LED_WS2801();
 
   void
     begin(void),

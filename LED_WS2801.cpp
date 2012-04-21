@@ -1,26 +1,26 @@
 #include "SPI.h"
-#include "Adafruit_WS2801.h"
+#include "LED_WS2801.h"
 
 // Example to control WS2801-based RGB LED Modules in a strand or strip
 // Written by Adafruit - MIT license
 /*****************************************************************************/
 
 // Constructor for use with hardware SPI (specific clock/data pins):
-Adafruit_WS2801::Adafruit_WS2801(uint16_t n, uint8_t order) {
+LED_WS2801::LED_WS2801(uint16_t n, uint8_t order) {
   rgb_order = order;
   alloc(n);
   updatePins();
 }
 
 // Constructor for use with arbitrary clock/data pins:
-Adafruit_WS2801::Adafruit_WS2801(uint16_t n, uint8_t dpin, uint8_t cpin, uint8_t order) {
+LED_WS2801::LED_WS2801(uint16_t n, uint8_t dpin, uint8_t cpin, uint8_t order) {
   rgb_order = order;
   alloc(n);
   updatePins(dpin, cpin);
 }
 
 // Allocate 3 bytes per pixel, init to RGB 'off' state:
-void Adafruit_WS2801::alloc(uint16_t n) {
+void LED_WS2801::alloc(uint16_t n) {
   begun   = false;
   numLEDs = ((pixels = (uint8_t *)calloc(n, 3)) != NULL) ? n : 0;
 }
@@ -31,7 +31,7 @@ void Adafruit_WS2801::alloc(uint16_t n) {
 // command.  If using this constructor, MUST follow up with updateLength()
 // and updatePins() to establish the strand length and output pins!
 // Also, updateOrder() to change RGB vs GRB order (RGB is default).
-Adafruit_WS2801::Adafruit_WS2801(void) {
+LED_WS2801::LED_WS2801(void) {
   begun     = false;
   numLEDs   = 0;
   pixels    = NULL;
@@ -40,7 +40,7 @@ Adafruit_WS2801::Adafruit_WS2801(void) {
 }
 
 // Activate hard/soft SPI as appropriate:
-void Adafruit_WS2801::begin(void) {
+void LED_WS2801::begin(void) {
   if(hardwareSPI == true) {
     startSPI();
   } else {
@@ -51,7 +51,7 @@ void Adafruit_WS2801::begin(void) {
 }
 
 // Change pin assignments post-constructor, switching to hardware SPI:
-void Adafruit_WS2801::updatePins(void) {
+void LED_WS2801::updatePins(void) {
   hardwareSPI = true;
   datapin     = clkpin = 0;
   // If begin() was previously invoked, init the SPI hardware now:
@@ -63,7 +63,7 @@ void Adafruit_WS2801::updatePins(void) {
 }
 
 // Change pin assignments post-constructor, using arbitrary pins:
-void Adafruit_WS2801::updatePins(uint8_t dpin, uint8_t cpin) {
+void LED_WS2801::updatePins(uint8_t dpin, uint8_t cpin) {
 
   if(begun == true) { // If begin() was previously invoked...
     // If previously using hardware SPI, turn that off:
@@ -86,19 +86,19 @@ void Adafruit_WS2801::updatePins(uint8_t dpin, uint8_t cpin) {
 }
 
 // Enable SPI hardware and set up protocol details:
-void Adafruit_WS2801::startSPI(void) {
+void LED_WS2801::startSPI(void) {
     SPI.begin();
     SPI.setBitOrder(MSBFIRST);
     SPI.setDataMode(SPI_MODE0);
     SPI.setClockDivider(SPI_CLOCK_DIV16); // 1 MHz max, else flicker
 }
 
-uint16_t Adafruit_WS2801::numPixels(void) {
+uint16_t LED_WS2801::numPixels(void) {
   return numLEDs;
 }
 
 // Change strand length (see notes with empty constructor, above):
-void Adafruit_WS2801::updateLength(uint16_t n) {
+void LED_WS2801::updateLength(uint16_t n) {
   if(pixels != NULL) free(pixels); // Free existing data (if any)
   // Allocate new data -- note: ALL PIXELS ARE CLEARED
   numLEDs = ((pixels = (uint8_t *)calloc(n, 3)) != NULL) ? n : 0;
@@ -106,13 +106,13 @@ void Adafruit_WS2801::updateLength(uint16_t n) {
 }
 
 // Change RGB data order (see notes with empty constructor, above):
-void Adafruit_WS2801::updateOrder(uint8_t order) {
+void LED_WS2801::updateOrder(uint8_t order) {
   rgb_order = order;
   // Existing LED data, if any, is NOT reformatted to new data order.
   // Calling function should clear or fill pixel data anew.
 }
 
-void Adafruit_WS2801::show(void) {
+void LED_WS2801::show(void) {
   uint16_t i, nl3 = numLEDs * 3; // 3 bytes per LED
   uint8_t  bit;
 
@@ -137,7 +137,7 @@ void Adafruit_WS2801::show(void) {
 }
 
 // Set pixel color from separate 8-bit R, G, B components:
-void Adafruit_WS2801::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
+void LED_WS2801::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
   if(n < numLEDs) { // Arrays are 0-indexed, thus NOT '<='
     uint8_t *p = &pixels[n * 3];
     // See notes later regarding color order
@@ -153,7 +153,7 @@ void Adafruit_WS2801::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
 }
 
 // Set pixel color from 'packed' 32-bit RGB value:
-void Adafruit_WS2801::setPixelColor(uint16_t n, uint32_t c) {
+void LED_WS2801::setPixelColor(uint16_t n, uint32_t c) {
   if(n < numLEDs) { // Arrays are 0-indexed, thus NOT '<='
     uint8_t *p = &pixels[n * 3];
     // To keep the show() loop as simple & fast as possible, the
@@ -172,7 +172,7 @@ void Adafruit_WS2801::setPixelColor(uint16_t n, uint32_t c) {
 }
 
 // Query color from previously-set pixel (returns packed 32-bit RGB value)
-uint32_t Adafruit_WS2801::getPixelColor(uint16_t n) {
+uint32_t LED_WS2801::getPixelColor(uint16_t n) {
   if(n < numLEDs) {
     uint16_t ofs = n * 3;
     // To keep the show() loop as simple & fast as possible, the

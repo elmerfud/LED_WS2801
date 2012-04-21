@@ -1,4 +1,4 @@
-This is a modified version of Adafruits WS2801 library.  It is  function compatable with my modified Adafruit_LPD8806 library so the two can be used interchangable with sketches.  
+This is a modified version of Adafruits WS2801 library.  It is  function compatable with my LED_LPD8806 library (modified from the Adafruit_LDP8806) so the two can be used interchangable with sketches.    
 
 12mm Bullet shape ----> https://www.adafruit.com/products/322
 Red - 5V
